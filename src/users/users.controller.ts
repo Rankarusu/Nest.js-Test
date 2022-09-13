@@ -6,7 +6,7 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
-  @Post('user')
+  @Post()
   async signupUser(
     @Body() userData: { name?: string; password: string; email: string },
   ): Promise<UserModel> {

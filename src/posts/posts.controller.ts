@@ -14,16 +14,16 @@ import { Post as PostModel } from '@prisma/client';
 export class PostsController {
   constructor(private readonly postService: PostsService) {}
 
-  @Get('post/:id')
-  async getPostById(@Param('id') id: string): Promise<PostModel> {
-    return this.postService.post({ id: Number(id) });
-  }
-
-  @Get('feed')
+  @Get()
   async getPublishedPosts(): Promise<PostModel[]> {
     return this.postService.posts({
       where: { published: true },
     });
+  }
+
+  @Get(':id')
+  async getPostById(@Param('id') id: string): Promise<PostModel> {
+    return this.postService.post({ id: Number(id) });
   }
 
   @Get('filtered-posts/:searchString')
@@ -44,7 +44,7 @@ export class PostsController {
     });
   }
 
-  @Post('post')
+  @Post()
   async createDraft(
     @Body() postData: { title: string; content?: string; authorEmail: string },
   ): Promise<PostModel> {
@@ -58,7 +58,7 @@ export class PostsController {
     });
   }
 
-  @Put('publish/:id')
+  @Put(':id')
   async publishPost(@Param('id') id: string): Promise<PostModel> {
     return this.postService.updatePost({
       where: { id: Number(id) },
@@ -66,7 +66,7 @@ export class PostsController {
     });
   }
 
-  @Delete('post/:id')
+  @Delete(':id')
   async deletePost(@Param('id') id: string): Promise<PostModel> {
     return this.postService.deletePost({ id: Number(id) });
   }
