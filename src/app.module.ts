@@ -7,10 +7,17 @@ import { AuthService } from './auth/auth.service';
 import { PostsModule } from './posts/posts.module';
 import { UsersService } from './users/users.service';
 import { PostsService } from './posts/posts.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [AuthModule, UsersModule, UsersModule, PostsModule],
   controllers: [AppController],
-  providers: [PrismaService, UsersService, PostsService, AuthService],
+  providers: [
+    PrismaService,
+    UsersService,
+    PostsService,
+    AuthService,
+    JwtService,
+  ],
 })
 export class AppModule {}
