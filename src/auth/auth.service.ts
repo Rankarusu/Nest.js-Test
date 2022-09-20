@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
+    public config: ConfigService,
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
@@ -23,7 +25,7 @@ export class AuthService {
     console.log(payload);
     return {
       access_token: this.jwtService.sign(payload, {
-        secret: process.env.JWT_KEY,
+        secret: this.config.get('JWT_KEY'),
       }),
     };
   }

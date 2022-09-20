@@ -1,4 +1,4 @@
-from node:lts
+FROM node:lts
 
 WORKDIR /src
 
@@ -9,6 +9,11 @@ RUN yarn install
 
 COPY . .
 
+# Generates models
+RUN yarn run prisma:gen
+
 RUN yarn run build
 
-RUN yarn start:prod
+EXPOSE 3000
+
+ENTRYPOINT [ "yarn", "run", "start:prod" ]

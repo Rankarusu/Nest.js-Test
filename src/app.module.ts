@@ -8,9 +8,21 @@ import { PostsModule } from './posts/posts.module';
 import { UsersService } from './users/users.service';
 import { PostsService } from './posts/posts.service';
 import { JwtService } from '@nestjs/jwt';
+import { LocalStrategy } from './auth/local.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { getEnvPath } from './common/helper/env.helper';
+import { ConfigModule } from '@nestjs/config';
 
+const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 @Module({
-  imports: [AuthModule, UsersModule, UsersModule, PostsModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    UsersModule,
+    PostsModule,
+    PassportModule,
+    ConfigModule.forRoot({ envFilePath, isGlobal: true }),
+  ],
   controllers: [AppController],
   providers: [
     PrismaService,
@@ -18,6 +30,7 @@ import { JwtService } from '@nestjs/jwt';
     PostsService,
     AuthService,
     JwtService,
+    LocalStrategy,
   ],
 })
 export class AppModule {}
